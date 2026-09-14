@@ -1,42 +1,24 @@
-# Website Penyuluh Agama Islam 2026
+# Penyuluh Agama Islam — KUA Kec. Panca Lautang — 2026 (Secure)
 
-Website Next.js + Tailwind + Supabase Storage + Supabase Database, siap dideploy ke Vercel.
+## Arsitektur
+- GitHub: source code
+- Vercel: hosting/deployment
+- Supabase Database: data konten
+- Supabase Storage: PDF & foto
+- Supabase Auth: login admin
+- RLS: membatasi perubahan database/storage kepada user yang terautentikasi
 
-## Data profil
-- Surianto, S.Ag
-- Penyuluh Agama Islam – PPPK
-- KUA Kec. Panca Lautang
-- SK: 2567/Kw.21.1/Kp.00.3/02/2025
-- WhatsApp: 082132244214
-- 4 kelompok binaan: 30 + 20 + 15 + 33 = 98 peserta
+## Setup satu kali
+1. Jalankan `supabase/schema.sql` di Supabase SQL Editor.
+2. Di Supabase Authentication > Users, buat satu user admin dengan email dan password yang Anda pilih.
+3. Masukkan Supabase anon/public key ke `supabase-config.js`, atau kelola konfigurasi publik tersebut melalui sistem deployment Anda.
+4. Push folder ini ke GitHub.
+5. Import repository ke Vercel.
 
-## Fitur
-- Profil premium responsif
-- Agenda, materi dakwah, laporan, galeri
-- Materi PDF bisa dibaca langsung dengan viewer browser
-- Login admin
-- Tambah/edit/hapus konten
-- Upload PDF/DOC/DOCX/XLS/XLSX/PPT/PPTX/JPG/PNG/WEBP, maksimal 15 MB
-- File masuk Supabase Storage; URL otomatis disimpan ke tabel konten
-- Dashboard statistik
-- Tombol WhatsApp
+Tidak ada service-role key di browser. Jangan pernah menaruh `SUPABASE_SERVICE_ROLE_KEY` di frontend.
 
-## Deploy Vercel (tanpa mengubah kode)
-1. Buat project Supabase.
-2. Buka Supabase > SQL Editor, jalankan `supabase/schema.sql` sekali.
-3. Supabase > Project Settings > API: salin Project URL, anon key, service_role key.
-4. Di Vercel > Project > Settings > Environment Variables isi:
-   - NEXT_PUBLIC_SUPABASE_URL
-   - NEXT_PUBLIC_SUPABASE_ANON_KEY
-   - SUPABASE_SERVICE_ROLE_KEY
-   - SUPABASE_STORAGE_BUCKET = penyuluh-files
-   - ADMIN_PASSWORD = bismillah 2026!
-   - ADMIN_SESSION_SECRET = buat kalimat acak panjang
-5. Deploy / Redeploy.
-6. Buka `/admin` untuk login.
+## Data awal
+Profil Surianto, S.Ag., status Penyuluh Agama Islam – PPPK, KUA Kec. Panca Lautang, SK 2567/Kw.21.1/Kp.00.3/02/2025, WhatsApp 082132244214, dan 4 kelompok binaan/98 peserta.
 
-### Keamanan
-Jangan pernah memasukkan `SUPABASE_SERVICE_ROLE_KEY` ke kode frontend atau GitHub. Gunakan hanya Environment Variables Vercel.
-
-### Ganti password admin
-Ubah `ADMIN_PASSWORD` di Vercel lalu Redeploy.
+## Catatan
+File PDF materi dan foto galeri yang belum diberikan tidak dibuat-buat. Upload melalui Dashboard Admin setelah login. Website otomatis menyimpan file di Supabase Storage dan URL-nya dapat dipakai pada konten.
