@@ -1,46 +1,69 @@
 create extension if not exists pgcrypto;
 
-create table if not exists public.site_profile(id int primary key default 1,name text not null,status text,kua text,sk text,whatsapp text,nip text,photo_url text,updated_at timestamptz default now());
-create table if not exists public.agenda(id uuid primary key default gen_random_uuid(),title text not null,description text,date text,file_url text,file_name text,created_at timestamptz default now());
-create table if not exists public.materials(id uuid primary key default gen_random_uuid(),title text not null,description text,category text,date text,content text,file_url text,file_name text,created_at timestamptz default now());
-create table if not exists public.reports(id uuid primary key default gen_random_uuid(),title text not null,description text,date text,file_url text,file_name text,created_at timestamptz default now());
-create table if not exists public.gallery(id uuid primary key default gen_random_uuid(),title text not null,description text,image_url text,file_url text,file_name text,created_at timestamptz default now());
+create table if not exists public.content_items (
+  id uuid primary key default gen_random_uuid(),
+  type text not null check (type in ('agenda','kegiatan_kua','materi','laporan','galeri','arsip')),
+  title text not null,
+  excerpt text,
+  content text,
+  event_date date,
+  participants integer default 0,
+  file_path text,
+  file_name text,
+  file_type text,
+  file_size bigint,
+  image_url text,
+  published boolean default true,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
 
-insert into public.site_profile(id,name,status,kua,sk,whatsapp) values (1,'Surianto, S.Ag','Penyuluh Agama Islam – PPPK','KUA Kec. Panca Lautang','2567/Kw.21.1/Kp.00.3/02/2025','082132244214') on conflict (id) do nothing;
+create table if not exists public.site_settings (
+  key text primary key,
+  value jsonb not null default '{}'::jsonb,
+  updated_at timestamptz default now()
+);
 
-insert into public.agenda(title,date,description) values
-('Majelis Taklim & Pembinaan Keagamaan','2026-09-12','Pembinaan rutin jamaah dan penguatan literasi keislaman.'),
-('Bimbingan Baca Al-Qur’an','2026-09-16','Pendampingan membaca Al-Qur’an untuk peserta binaan.'),
-('Penyuluhan Keluarga Sakinah','2026-09-20','Komunikasi sehat, ketahanan keluarga, dan pembinaan pasangan.');
+insert into public.site_settings(key,value) values
+('profile','{"name":"Surianto, S.Ag.","role":"Penyuluh Agama Islam – PPPK","KUA":"KUA Kec. Panca Lautang","SK":"2567/Kw.21.1/Kp.00.3/02/2025","whatsapp":"082132244214","groups":98}')
+on conflict(key) do update set value=excluded.value;
 
-insert into public.materials(title,description,category,content) values
-('Keluarga Sakinah: Memulai dari Komunikasi','Materi dakwah tentang membangun keluarga melalui komunikasi yang sehat dan penuh empati.','Keluarga Sakinah','Komunikasi adalah fondasi penting dalam membangun keluarga sakinah. Suami dan istri perlu membiasakan diri mendengar dengan empati, berbicara dengan santun, dan menyelesaikan masalah tanpa merendahkan satu sama lain.
+alter table public.content_items enable row level security;
+alter table public.site_settings enable row level security;
 
-Mulailah dari kebiasaan sederhana: menyediakan waktu berbicara, menyampaikan kebutuhan dengan jelas, meminta maaf ketika keliru, dan menyepakati cara menyelesaikan konflik.'),
-('Mencegah Radikalisme di Lingkungan Keluarga','Panduan sederhana untuk membangun ketahanan keluarga terhadap paham kekerasan dan intoleransi.','Moderasi Beragama','Keluarga memiliki peran penting dalam menanamkan sikap saling menghormati. Ajarkan anak untuk memeriksa informasi, berdialog dengan santun, menghargai perbedaan, dan memahami agama secara utuh.
+drop policy if exists "public read published content" on public.content_items;
+create policy "public read published content" on public.content_items for select
+using (published = true or auth.role() = 'authenticated');
 
-Kembangkan budaya tabayyun, literasi digital, serta keteladanan dalam kehidupan sehari-hari.'),
-('Pencegahan Penyalahgunaan Narkoba','Materi penyuluhan untuk keluarga dan masyarakat tentang pencegahan penyalahgunaan narkoba.','Keluarga & Remaja','Pencegahan dimulai dari komunikasi yang terbuka dan lingkungan yang mendukung. Orang tua perlu mengenal pergaulan anak, membangun kepercayaan, dan memberi ruang bagi anak untuk bercerita.
+drop policy if exists "authenticated manage content" on public.content_items;
+create policy "authenticated manage content" on public.content_items for all
+to authenticated using (true) with check (true);
 
-Jika muncul tanda bahaya, segera cari bantuan profesional dan layanan resmi yang tersedia.');
+drop policy if exists "public read profile" on public.site_settings;
+create policy "public read profile" on public.site_settings for select using (key='profile');
 
-insert into public.reports(title,date,description) values
-('Laporan Kegiatan Pembinaan BKMT','2026-08-28','Dokumentasi kegiatan pembinaan dan materi penyuluhan.'),
-('Laporan Bimbingan Baca Al-Qur’an','2026-08-21','Rekap pelaksanaan bimbingan membaca Al-Qur’an.');
+drop policy if exists "authenticated manage settings" on public.site_settings;
+create policy "authenticated manage settings" on public.site_settings for all
+to authenticated using (true) with check (true);
 
-insert into public.gallery(title,description,image_url) values
-('Dokumentasi Penyuluh','Kegiatan dan pelayanan Penyuluh Agama Islam.','/profile.jpg'),
-('Dokumentasi KUA Panca Lautang','Identitas Kementerian Agama dan KUA Kec. Panca Lautang.','/logo-kemenag.png');
+insert into storage.buckets (id,name,public)
+values ('documents','documents',true)
+on conflict (id) do update set public=true;
 
-drop policy if exists "public read site_profile" on public.site_profile;
-create policy "public read site_profile" on public.site_profile for select using (true);
-drop policy if exists "public read agenda" on public.agenda;
-drop policy if exists "public read materials" on public.materials;
-drop policy if exists "public read reports" on public.reports;
-drop policy if exists "public read gallery" on public.gallery;
-create policy "public read agenda" on public.agenda for select using (true);
-create policy "public read materials" on public.materials for select using (true);
-create policy "public read reports" on public.reports for select using (true);
-create policy "public read gallery" on public.gallery for select using (true);
+alter table storage.objects enable row level security;
 
-insert into storage.buckets(id,name,public) values ('penyuluh-files','penyuluh-files',true) on conflict (id) do update set public=true;
+drop policy if exists "documents public read" on storage.objects;
+create policy "documents public read" on storage.objects for select
+using (bucket_id='documents');
+
+drop policy if exists "authenticated upload documents" on storage.objects;
+create policy "authenticated upload documents" on storage.objects for insert
+to authenticated with check (bucket_id='documents');
+
+drop policy if exists "authenticated update documents" on storage.objects;
+create policy "authenticated update documents" on storage.objects for update
+to authenticated using (bucket_id='documents') with check (bucket_id='documents');
+
+drop policy if exists "authenticated delete documents" on storage.objects;
+create policy "authenticated delete documents" on storage.objects for delete
+to authenticated using (bucket_id='documents');
