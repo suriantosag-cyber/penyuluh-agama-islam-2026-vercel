@@ -37,6 +37,20 @@
     footer{padding:35px 0;background:#09291b;color:#d9e9e0}.footer-grid{display:flex;justify-content:space-between;gap:30px}.footer-grid small{color:#9bb4a8}
     .modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}.modal.open{display:flex}.modal img{max-width:min(100%,1000px);max-height:90vh;border-radius:15px}.close{position:absolute;top:18px;right:24px;color:#fff;font-size:35px;cursor:pointer}
     .admin{display:none}.admin.show{display:block}.admin-bar{position:fixed;bottom:18px;right:18px;z-index:40}.login{max-width:420px;margin:90px auto;background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:var(--shadow)}input,textarea,select{width:100%;padding:12px 13px;border:1px solid #ccd9d2;border-radius:12px;font:inherit;margin:7px 0 13px}label{font-size:12px;font-weight:800}.admin-panel{padding:45px 0}.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.danger{background:#fff0f0;border-color:#ffd2d2;color:#9b2424}
+
+    .news-toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+    .news-grid{display:grid;grid-template-columns:1.5fr .8fr;gap:20px}
+    .news-main,.news-side{background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:0 10px 35px rgba(9,50,31,.06)}
+    .news-cover{width:100%;aspect-ratio:16/9;object-fit:cover;background:#eaf0ed;display:block}
+    .news-body{padding:25px}.news-kicker{color:var(--green);font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+    .news-body h3{font-family:"Plus Jakarta Sans";font-size:28px;line-height:1.2;margin:8px 0 12px}.news-meta{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-bottom:17px}
+    .news-body p{color:#465b52;line-height:1.8;margin:0 0 12px;white-space:pre-line}.news-side{padding:20px}.news-side h3{margin:0 0 15px}.mini-news{display:grid;grid-template-columns:92px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.mini-news:last-child{border-bottom:0}
+    .mini-news img{width:92px;height:72px;object-fit:cover;border-radius:12px;background:#eaf0ed}.mini-news b{font-size:13px;line-height:1.35}.mini-news small{display:block;color:var(--muted);margin-top:5px}
+    .news-gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}.news-gallery img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:13px;cursor:pointer}
+    .news-list{display:grid;gap:18px;margin-top:22px}.news-list article{display:grid;grid-template-columns:260px 1fr;gap:0;background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden}.news-list img{width:100%;height:100%;min-height:190px;object-fit:cover;background:#eaf0ed}.news-list .news-body{padding:20px}.news-list h3{font-size:21px}
+    .muted-note{color:var(--muted);font-size:12px;line-height:1.6}
+    @media(max-width:850px){.news-grid{grid-template-columns:1fr}.news-list article{grid-template-columns:1fr}.news-list img{height:220px}}
+    @media(max-width:560px){.news-gallery{grid-template-columns:repeat(2,1fr)}.news-body h3{font-size:23px}}
     @media(max-width:850px){nav{display:none}.menu{display:block}.hero-grid,.about{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.groups{grid-template-columns:1fr 1fr}.gallery{grid-template-columns:repeat(2,1fr)}.admin-grid{grid-template-columns:1fr}}
     @media(max-width:560px){.nav{height:68px}.brand img{width:40px;height:40px}.brand{font-size:13px}.brand small{font-size:9px}section{padding:60px 0}.grid{grid-template-columns:1fr}.hero{padding-top:48px}.cta{padding:28px;display:block}.cta .btn{margin-top:18px}.footer-grid{display:block}.footer-grid>div+div{margin-top:20px}}
   </style>
@@ -44,7 +58,7 @@
 <body>
 <header><div class="wrap nav">
   <a class="brand" href="#"><img src="assets/logo-kemenag.png" alt="Logo Kementerian Agama"><div>KUA Kec. Panca Lautang<small>Penyuluh Agama Islam</small></div></a>
-  <nav><a href="#profil">Profil</a><a href="#agenda">Agenda</a><a href="#materi">Materi</a><a href="#laporan">Laporan</a><a href="#galeri">Galeri</a><a href="#kontak">Kontak</a></nav>
+  <nav><a href="#profil">Profil</a><a href="#agenda">Agenda</a><a href="#materi">Materi</a><a href="#laporan">Laporan</a><a href="#kegiatan-kua">Kegiatan KUA</a><a href="#galeri">Galeri</a><a href="#kontak">Kontak</a></nav>
   <button class="menu" onclick="alert('Gunakan menu halaman di layar desktop atau scroll ke bagian yang diperlukan.')">☰</button>
 </div></header>
 
@@ -71,6 +85,12 @@
 <section id="agenda"><div class="wrap"><div class="section-head"><div><h2>Agenda Kegiatan</h2><p>Agenda terbaru yang tersimpan di Supabase.</p></div></div><div id="agendaGrid" class="grid"><div class="empty">Memuat agenda…</div></div></div></section>
 <section id="materi"><div class="wrap"><div class="section-head"><div><h2>Materi Dakwah</h2><p>Materi dapat dibaca atau dibuka dari semua perangkat.</p></div></div><div id="materiGrid" class="grid"><div class="empty">Memuat materi…</div></div></div></section>
 <section id="laporan"><div class="wrap"><div class="section-head"><div><h2>Laporan Kegiatan</h2><p>Dokumentasi dan ringkasan pelaksanaan kegiatan.</p></div><button class="btn" onclick="window.print()">🖨 Cetak / Simpan PDF</button></div><div id="laporanGrid" class="grid"><div class="empty">Memuat laporan…</div></div></div></section>
+
+<section id="kegiatan-kua"><div class="wrap">
+  <div class="section-head"><div><h2>Kegiatan KUA</h2><p>Berita dan dokumentasi kegiatan KUA dalam format portal informasi resmi.</p></div></div>
+  <div id="featuredNews"></div>
+  <div id="newsList" class="news-list"></div>
+</div></section>
 <section id="galeri"><div class="wrap"><div class="section-head"><div><h2>Galeri Dokumentasi</h2><p>Klik foto untuk melihat lebih besar.</p></div></div><div id="galleryGrid" class="gallery"><div class="empty">Memuat galeri…</div></div></div></section>
 <section id="kontak"><div class="wrap"><div class="cta"><div><h2 style="margin:0">Butuh informasi penyuluhan?</h2><p>Hubungi Penyuluh Agama Islam melalui WhatsApp.</p></div><a class="btn" href="https://wa.me/6282132244214" target="_blank">Chat WhatsApp →</a></div></div></section>
 </main>
@@ -109,13 +129,16 @@
       <div class="card">
         <span class="tag">KONTEN</span><h3>Tambah / edit konten</h3>
         <input id="editId" type="hidden">
-        <label>Jenis</label><select id="cType"><option value="agenda">Agenda</option><option value="materi">Materi</option><option value="laporan">Laporan</option><option value="galeri">Galeri</option></select>
+        <label>Jenis</label><select id="cType"><option value="agenda">Agenda</option><option value="materi">Materi</option><option value="laporan">Laporan</option><option value="kegiatan_kua">Kegiatan KUA (Berita)</option><option value="galeri">Galeri</option></select>
         <label>Judul</label><input id="cTitle" placeholder="Judul konten">
         <label>Ringkasan</label><input id="cExcerpt" placeholder="Ringkasan singkat">
         <label>Isi</label><textarea id="cContent" rows="5" placeholder="Isi materi/laporan atau keterangan"></textarea>
         <label>Tanggal kegiatan</label><input id="cDate" type="date">
         <label>Peserta</label><input id="cParticipants" type="number" min="0" value="0">
-        <label>URL file / foto (opsional)</label><input id="cUrl" placeholder="URL Supabase Storage">
+        <label>URL foto utama (opsional)</label><input id="cUrl" placeholder="URL Supabase Storage">
+        <label>URL foto dokumentasi tambahan (satu URL per baris)</label><textarea id="cGalleryUrls" rows="3" placeholder="https://.../foto-1.jpg
+https://.../foto-2.jpg"></textarea>
+        <p class="muted-note">Untuk Kegiatan KUA, foto utama menjadi sampul berita. Foto tambahan tampil sebagai galeri di halaman utama berita.</p>
         <div class="actions">
           <button class="btn btn-primary" onclick="saveContent()">Simpan</button>
           <button class="btn" onclick="resetContentForm()">Form baru</button>
@@ -125,8 +148,8 @@
 
       <div class="card">
         <span class="tag">STORAGE</span><h3>Upload PDF / foto</h3>
-        <p>File masuk ke bucket <b>documents</b> dan hanya dapat diubah oleh admin yang login.</p>
-        <input id="fileInput" type="file" accept=".pdf,image/*">
+        <p>File masuk ke bucket <b>documents</b> dan hanya dapat diubah oleh admin yang login. Foto kegiatan dapat dipakai sebagai foto utama atau galeri berita.</p>
+        <input id="fileInput" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,image/*">
         <button class="btn btn-gold" onclick="uploadFile()">Upload ke Supabase</button>
         <p id="uploadMsg" style="color:var(--muted);word-break:break-word"></p>
       </div>
@@ -191,13 +214,63 @@ async function getItems(type){
     .order("event_date",{ascending:false}).order("created_at",{ascending:false});
   if(error){console.warn(error);return []} return data||[];
 }
+function fmtDate(d){
+  if(!d) return "";
+  try{return new Intl.DateTimeFormat("id-ID",{day:"2-digit",month:"long",year:"numeric"}).format(new Date(d+"T00:00:00"))}catch{return d}
+}
+function imageOf(x){return x?.image_url||x?.file_path||""}
+function galleryOf(x){
+  const g=Array.isArray(x?.gallery_urls)?x.gallery_urls:[];
+  return g.filter(Boolean);
+}
 function renderCard(x,type){
-  const file=x.image_url||x.file_path||"";
+  const file=imageOf(x);
   const button=file?`<a class="btn" href="${esc(file)}" target="_blank">${type==="galeri"?"Buka foto":"Buka file"} ↗</a>`:"";
   return `<article class="card"><span class="tag">${esc(type.toUpperCase())}</span><h3>${esc(x.title)}</h3><p>${esc(x.excerpt||x.content||"")}</p>
-  ${x.event_date?`<p style="margin-top:12px;font-size:12px">📅 ${esc(x.event_date)}</p>`:""}
+  ${x.event_date?`<p style="margin-top:12px;font-size:12px">📅 ${esc(fmtDate(x.event_date))}</p>`:""}
   ${x.participants?`<p style="margin-top:7px;font-size:12px">👥 ${esc(x.participants)} peserta</p>`:""}
   ${button?`<div class="actions">${button}</div>`:""}</article>`;
+}
+function renderNewsItem(x){
+  const img=imageOf(x);
+  const gallery=galleryOf(x);
+  const text=x.content||x.excerpt||"";
+  const excerpt=x.excerpt||text.slice(0,180)+(text.length>180?"…":"");
+  const photos=[img,...gallery].filter(Boolean);
+  return `<article>
+    ${img?`<img src="${esc(img)}" alt="${esc(x.title)}" loading="lazy">`:`<div style="min-height:190px;background:#edf3ef;display:grid;place-items:center;color:#6b7e75">Belum ada foto</div>`}
+    <div class="news-body">
+      <div class="news-kicker">Kegiatan KUA</div>
+      <h3>${esc(x.title)}</h3>
+      <div class="news-meta">${x.event_date?`<span>📅 ${esc(fmtDate(x.event_date))}</span>`:""}${x.participants?`<span>👥 ${esc(x.participants)} peserta</span>`:""}</div>
+      <p>${esc(excerpt)}</p>
+      ${text?`<details><summary style="cursor:pointer;color:var(--green);font-weight:800">Baca berita lengkap</summary><p style="margin-top:15px">${esc(text)}</p></details>`:""}
+      ${photos.length>1?`<div class="news-gallery">${photos.map(u=>`<img src="${esc(u)}" alt="Dokumentasi ${esc(x.title)}" onclick="openPhoto('${esc(u)}')" loading="lazy">`).join("")}</div>`:""}
+    </div>
+  </article>`;
+}
+function renderFeaturedNews(x){
+  if(!x) return `<div class="empty">Belum ada berita Kegiatan KUA yang dipublikasikan.</div>`;
+  const img=imageOf(x), photos=[img,...galleryOf(x)].filter(Boolean);
+  return `<div class="news-grid">
+    <article class="news-main">
+      ${img?`<img class="news-cover" src="${esc(img)}" alt="${esc(x.title)}">`:`<div class="news-cover"></div>`}
+      <div class="news-body">
+        <div class="news-kicker">Berita Utama • Kegiatan KUA</div>
+        <h3>${esc(x.title)}</h3>
+        <div class="news-meta">${x.event_date?`<span>📅 ${esc(fmtDate(x.event_date))}</span>`:""}${x.participants?`<span>👥 ${esc(x.participants)} peserta</span>`:""}</div>
+        ${x.excerpt?`<p><b>${esc(x.excerpt)}</b></p>`:""}
+        <p>${esc(x.content||"Berita kegiatan belum memiliki isi lengkap.")}</p>
+        ${photos.length>1?`<div class="news-gallery">${photos.map(u=>`<img src="${esc(u)}" alt="Dokumentasi ${esc(x.title)}" onclick="openPhoto('${esc(u)}')" loading="lazy">`).join("")}</div>`:""}
+      </div>
+    </article>
+    <aside class="news-side"><h3>Berita Kegiatan KUA</h3>
+      ${(window._kuaNews||[]).slice(1,6).map(n=>`<div class="mini-news">
+        ${imageOf(n)?`<img src="${esc(imageOf(n))}" alt="${esc(n.title)}">`:`<div style="width:92px;height:72px;border-radius:12px;background:#edf3ef"></div>`}
+        <div><b>${esc(n.title)}</b><small>${n.event_date?esc(fmtDate(n.event_date)):"Kegiatan KUA"}</small></div>
+      </div>`).join("") || `<p class="muted-note">Belum ada berita lainnya.</p>`}
+    </aside>
+  </div>`;
 }
 async function loadPublic(){
   if(!sb){
@@ -208,8 +281,12 @@ async function loadPublic(){
     const rows=await getItems(type), el=$(id);
     el.innerHTML=rows.length?rows.map(x=>renderCard(x,type)).join(""):`<div class="empty">Belum ada ${type} yang dipublikasikan.</div>`;
   }
+  const kua=await getItems("kegiatan_kua");
+  window._kuaNews=kua;
+  $("featuredNews").innerHTML=renderFeaturedNews(kua[0]);
+  $("newsList").innerHTML=kua.length>1?kua.slice(1).map(renderNewsItem).join(""):"";
   const photos=await getItems("galeri"), g=$("galleryGrid");
-  g.innerHTML=photos.length?photos.map(x=>`<div class="photo" onclick="openPhoto('${esc(x.image_url||x.file_path||"")}')"><img src="${esc(x.image_url||x.file_path||"")}" alt="${esc(x.title)}" loading="lazy"></div>`).join(""):`<div class="empty">Belum ada dokumentasi galeri.</div>`;
+  g.innerHTML=photos.length?photos.map(x=>`<div class="photo" onclick="openPhoto('${esc(imageOf(x))}')"><img src="${esc(imageOf(x))}" alt="${esc(x.title)}" loading="lazy"></div>`).join(""):`<div class="empty">Belum ada dokumentasi galeri.</div>`;
 }
 function openPhoto(url){if(!url)return;$("lightboxImg").src=url;$("lightbox").classList.add("open")}
 
@@ -232,7 +309,7 @@ async function saveProfile(){
 }
 
 function resetContentForm(){
-  $("editId").value="";$("cTitle").value="";$("cExcerpt").value="";$("cContent").value="";$("cDate").value="";$("cParticipants").value="0";$("cUrl").value="";$("addMsg").textContent="";
+  $("editId").value="";$("cTitle").value="";$("cExcerpt").value="";$("cContent").value="";$("cDate").value="";$("cParticipants").value="0";$("cUrl").value="";$("cGalleryUrls").value="";$("addMsg").textContent="";
 }
 async function saveContent(){
   if(!sb||!currentUser)return $("addMsg").textContent="Silakan login.";
@@ -242,14 +319,17 @@ async function saveContent(){
   const payload={type,title,excerpt:$("cExcerpt").value.trim(),content:$("cContent").value.trim(),
     event_date:$("cDate").value||null,participants:Number($("cParticipants").value||0),published:true};
   const url=$("cUrl").value.trim()||null;
-  if(type==="galeri") payload.image_url=url; else payload.file_path=url;
+  const galleryUrls=$("cGalleryUrls").value.split(/\\n+/).map(v=>v.trim()).filter(Boolean);
+  payload.image_url=(type==="galeri"||type==="kegiatan_kua")?url:null;
+  payload.file_path=(type==="galeri"||type==="kegiatan_kua")?null:url;
+  payload.gallery_urls=(type==="kegiatan_kua")?galleryUrls:[];
   let result=id ? await sb.from("content_items").update(payload).eq("id",id) : await sb.from("content_items").insert(payload);
   $("addMsg").textContent=result.error?result.error.message:(id?"Konten berhasil diperbarui.":"Konten berhasil ditambahkan.");
   if(!result.error){resetContentForm();await loadAdminList();await loadPublic();}
 }
 async function uploadFile(){
   if(!sb||!currentUser)return $("uploadMsg").textContent="Silakan login.";
-  const f=$("fileInput").files[0]; if(!f)return $("uploadMsg").textContent="Pilih PDF atau foto.";
+  const f=$("fileInput").files[0]; if(!f)return $("uploadMsg").textContent="Pilih dokumen atau foto.";
   const safe=f.name.replace(/[^a-zA-Z0-9._-]/g,"-"), path=`uploads/${Date.now()}-${safe}`;
   const {error}=await sb.storage.from("documents").upload(path,f,{upsert:false,contentType:f.type});
   if(error)return $("uploadMsg").textContent=error.message;
@@ -268,7 +348,8 @@ async function loadAdminList(){
 function editContent(x){
   $("editId").value=x.id;$("cType").value=x.type;$("cTitle").value=x.title||"";$("cExcerpt").value=x.excerpt||"";
   $("cContent").value=x.content||"";$("cDate").value=x.event_date||"";$("cParticipants").value=x.participants||0;
-  $("cUrl").value=x.type==="galeri"?(x.image_url||""):(x.file_path||"");
+  $("cUrl").value=(x.type==="galeri"||x.type==="kegiatan_kua")?(x.image_url||""):(x.file_path||"");
+  $("cGalleryUrls").value=Array.isArray(x.gallery_urls)?x.gallery_urls.join("\n"):"";
   $("addMsg").textContent="Mode edit aktif.";
 }
 async function deleteContent(id){

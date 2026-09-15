@@ -2,7 +2,7 @@ create extension if not exists pgcrypto;
 
 create table if not exists public.content_items (
   id uuid primary key default gen_random_uuid(),
-  type text not null check (type in ('agenda','materi','laporan','galeri','arsip')),
+  type text not null check (type in ('agenda','materi','laporan','galeri','arsip','kegiatan_kua')),
   title text not null,
   excerpt text,
   content text,
@@ -13,6 +13,7 @@ create table if not exists public.content_items (
   file_type text,
   file_size bigint,
   image_url text,
+  gallery_urls jsonb not null default '[]'::jsonb,
   published boolean default true,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
@@ -67,3 +68,10 @@ to authenticated using (bucket_id='documents') with check (bucket_id='documents'
 drop policy if exists "authenticated delete documents" on storage.objects;
 create policy "authenticated delete documents" on storage.objects for delete
 to authenticated using (bucket_id='documents');
+
+
+-- Upgrade aman untuk proyek yang tabelnya sudah pernah dibuat
+alter table public.content_items add column if not exists gallery_urls jsonb not null default '[]'::jsonb;
+alter table public.content_items drop constraint if exists content_items_type_check;
+alter table public.content_items add constraint content_items_type_check
+  check (type in ('agenda','materi','laporan','galeri','arsip','kegiatan_kua'));
